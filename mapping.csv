@@ -1,0 +1,97 @@
+################## HELP ##################
+#
+##########################################
+######### connect to a K2 system #########
+##########################################
+# KBLOCK,FQDN,USERNAME,PASSWORD
+################# SYNTAX #################
+## FQDN : K2 FQDN or IP address
+## USERNAME : user to connect to K2 system
+## PASSWORD : password to connect to K2 system
+#
+#
+##########################################
+###### pause this script (for demo) ######
+##########################################
+# TEMPO,SECONDS
+################# SYNTAX #################
+## SECONDS : duration of the pause (in seconds)
+#
+#
+##########################################
+############# create volumes #############
+##########################################
+# CREATE-VOLUMES,VOLNAME,VMWARE_SUPPORT,DEDUP,VOLCOUNT,VOLSIZE
+################# SYNTAX #################
+## VOLNAME : name of the volumes
+## VMWARE_SUPPORT : True False
+## DEDUP : True False
+## VOLCOUNT : number ov volumes to create
+## VOLSIZE : volume size in GiB
+#
+#
+##########################################
+### create volumes, hosts and mapping ####
+##########################################
+# CREATE-AND-MAP,HOSTNAME,HOSTTYPE,VMWARE_SUPPORT,DEDUP,VOLCOUNT,VOLSIZE,VOLSUFFIX(optional)
+################# SYNTAX #################
+## HOSTNAME : name of the host to map/create
+## HOSTTYPE : ESX Solaris AIX Linux Windows
+## VMWARE_SUPPORT : True False
+## DEDUP : True False
+## VOLCOUNT : number ov volumes to create
+## VOLSIZE : volume size in GiB
+## VOLSUFFIX : (OPTIONAL) suffix in volume name (ie. DATA REDO ARCH...)
+#
+#
+##########################################
+### associate host and WWPN (FC only) ####
+##########################################
+# MAP-PWWN,HOSTNAME,PWWN
+################# SYNTAX #################
+## HOSTNAME : name of the host to map/create
+## PWWN : port WWN (with of without : separator)
+#
+#
+##########################################
+#####         create host          #######
+##########################################
+# CREATE-SERVER,HOSTNAME,HOSTTYPE
+################# SYNTAX #################
+## HOSTNAME : name of the host to map/create
+## HOSTTYPE : ESX Solaris AIX Linux Windows
+#
+#
+##########################################
+## associate host and IQN (iSCSI only) ###
+##########################################
+# MAP-IQN,HOSTNAME,IQN
+################# SYNTAX #################
+## HOSTNAME : name of the host to map/create
+## IQN : port IQN
+#
+#
+##########################################
+######## cleanup created objects #########
+##########################################
+# CLEANUP
+#
+#
+## NO BLANK LINES ##
+#
+#
+###############################
+###### SAMPLE CSV INPUTS ######
+###############################
+KBLOCK,192.168.7.13,admin,Kaminario1
+CREATE-AND-MAP,ESX-SRV1,ESX,True,True,2,10,DATASTORE
+MAP-PWWN,ESX-SRV1,55:55:55:55:55:55:55:01
+MAP-PWWN,ESX-SRV1,55:55:55:55:55:55:55:02
+CREATE-AND-MAP,SOLARIS-SRV1,Solaris,False,True,2,10
+CREATE-AND-MAP,AIX-SRV1,AIX,False,True,10,100,ORA-DATA
+CREATE-AND-MAP,AIX-SRV1,AIX,False,True,2,10,ORA-REDO
+CREATE-AND-MAP,AIX-SRV1,AIX,False,True,4,50,ORA-ARCH
+CREATE-AND-MAP,LINUX-SRV1,Linux,False,True,2,10
+CREATE-AND-MAP,WINDOWS-SRV1,Windows,False,True,2,10,ARCH
+TEMPO,60
+CLEANUP
